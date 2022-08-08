@@ -21,8 +21,15 @@ func main() {
 
 func ping(w http.ResponseWriter, r *http.Request) {
 	w.Header().Add("Content-Type", "application/json")
-	w.WriteHeader(http.StatusAccepted)
-	json.NewEncoder(w).Encode(&Ping{
-		Status: "pong",
-	})
+
+	if r.Method == "GET" {
+		w.WriteHeader(http.StatusAccepted)
+		json.NewEncoder(w).Encode(&Ping{
+			Status: "pong",
+		})
+
+		return
+	}
+
+	w.WriteHeader(http.StatusNotFound)
 }
